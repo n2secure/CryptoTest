@@ -29,6 +29,12 @@ public class ResponseService implements MessageListener {
     Destination dest;
     String topic;
 
+    public Connection getConnection(){
+        return this.connection;
+    }
+    public Session getSession(){
+        return this.session;
+    }
     public  ResponseService(String topic){
         this.topic = topic;
     }
