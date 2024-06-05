@@ -19,7 +19,11 @@ public class MarketDataPublisher {
 
     PriceData[] priceList = {
             new PriceData("AAPL",194.35,PriceData.CURRENCY.USD) ,
+            new PriceData("AAPL-OCT-2020-110-C",1.035,PriceData.CURRENCY.USD) ,
+            new PriceData("AAPL-OCT-2020-110-P",1.105,PriceData.CURRENCY.USD) ,
             new PriceData("TSLA",174.77,PriceData.CURRENCY.USD), 
+            new PriceData("TSLA-NOV-2020-400-C",1.005,PriceData.CURRENCY.USD) ,
+            new PriceData("TSLA-DEC-2020-400-P",1.120,PriceData.CURRENCY.USD) ,
             new PriceData("AMZN",179.34,PriceData.CURRENCY.USD),
             new PriceData("GOOG",175.13,PriceData.CURRENCY.USD) ,
             new PriceData("BMW",92.04,PriceData.CURRENCY.EUR)};

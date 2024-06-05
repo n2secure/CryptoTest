@@ -2,6 +2,8 @@ package com.cryptotest.server;
 
 import com.cryptotest.service.messaging.ResponseService;
 import com.cryptotest.service.messaging.SubService;
+import com.google.gson.Gson;
+
 import javax.jms.MessageListener;
 import javax.jms.Message;
 import javax.jms.TextMessage;
@@ -32,6 +34,9 @@ public class MarketDataClient implements MessageListener {
                 TextMessage textMessage = (TextMessage) message;
                 logger.info("Received message"
                         + textMessage.getText() + "'");
+                Gson gson = new Gson();
+                PriceData pData = gson.fromJson(textMessage.getText(), PriceData.class);
+                logger.info("got market Data : usin gson "+gson.toJson(pData));
             }     
         } catch (Exception e) {
             logger.error("exception caught : ",e);

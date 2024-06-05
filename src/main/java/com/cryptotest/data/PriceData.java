@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class PriceData {
     public enum CURRENCY {USD,EUR,GBP};
-    public String ticker;
+    public String securityId;
     public double  price;    
     public CURRENCY currency;
     public Date date;
-    public PriceData(String ticker,double  price,CURRENCY currency){
-        this.ticker = ticker;
+    public PriceData(String securityId,double  price,CURRENCY currency){
+        this.securityId = securityId;
         this.price = price;
         this.currency =  currency;
 
