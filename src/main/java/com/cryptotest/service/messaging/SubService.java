@@ -1,4 +1,4 @@
-package com.cryptotest.service;
+package com.cryptotest.service.messaging;
 
 
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -47,6 +47,7 @@ public class SubService  {
             MessageConsumer consumer = session.createConsumer(dest);
             logger.info("SubService: setMessageListener(this)");
             consumer.setMessageListener(listener);
+            // connection.close();
 
         } catch (JMSException e) {
             logger.error("exception caught : ",e);

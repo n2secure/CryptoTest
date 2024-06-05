@@ -1,4 +1,4 @@
-package com.cryptotest.service;
+package com.cryptotest.service.messaging;
 
 
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -52,6 +52,7 @@ public class PubService {
             final TextMessage textMessage = session.createTextMessage( strMessage );
 
             producer = session.createProducer( dest );
+            producer.setDeliveryMode(DeliveryMode.PERSISTENT);
             logger.info("PubService: send() : textMessage="+textMessage);
             producer.send(textMessage );
 

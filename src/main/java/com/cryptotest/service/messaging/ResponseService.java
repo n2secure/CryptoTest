@@ -1,4 +1,4 @@
-package com.cryptotest.service;
+package com.cryptotest.service.messaging;
 
 
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -32,7 +32,11 @@ public class ResponseService implements MessageListener {
     public  ResponseService(String topic){
         this.topic = topic;
     }
-    public void startSerice(){
+    public void startService(){
+        this.startService(null);
+    }
+
+    public void startService(MessageListener listener){
         logger.info("ResponseService: startSerice()");
         Connection connection = null;
         try {
@@ -45,7 +49,11 @@ public class ResponseService implements MessageListener {
 
             MessageConsumer consumer = session.createConsumer(dest);
             logger.info("ResponseService: setMessageListener(this)");
-            consumer.setMessageListener(this);
+            if (listener != null){ 
+                consumer.setMessageListener(listener);
+            } else {
+                consumer.setMessageListener(this);
+            }
 
         } catch (JMSException e) {
             logger.error("exception caught : ",e);

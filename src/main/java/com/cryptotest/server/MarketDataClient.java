@@ -1,6 +1,7 @@
 package com.cryptotest.server;
 
-import com.cryptotest.service.SubService;
+import com.cryptotest.service.messaging.ResponseService;
+import com.cryptotest.service.messaging.SubService;
 import javax.jms.MessageListener;
 import javax.jms.Message;
 import javax.jms.TextMessage;
@@ -41,7 +42,8 @@ public class MarketDataClient implements MessageListener {
     public static void main(String[] args){
 
         MarketDataClient client = new MarketDataClient();
-        SubService subService = new SubService("marketdata.topic") ;
+        ResponseService subService =  new ResponseService(MarketDataPublisher.MARKET_DATA_TOPIC);       
+        // SubService subService = new SubService("marketdata.topic") ;
 
         subService.startService(client);    
     }

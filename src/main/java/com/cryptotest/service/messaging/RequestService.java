@@ -1,4 +1,4 @@
-package com.cryptotest.service;
+package com.cryptotest.service.messaging;
 
 
 import org.apache.activemq.ActiveMQConnectionFactory;

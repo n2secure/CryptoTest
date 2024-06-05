@@ -1,17 +1,21 @@
 package com.cryptotest.server;
 
-import com.cryptotest.service.PubService;
+import com.cryptotest.service.messaging.PubService;
+import com.cryptotest.service.messaging.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.cryptotest.data.PriceData;
 import java.util.Random;
 import org.apache.log4j.Logger;
+import java.util.Date; 
 
 public class MarketDataPublisher {
 
+    final public static String MARKET_DATA_TOPIC = "marketdata.topic";
     Logger logger = Logger.getLogger(MarketDataPublisher.class) ;
 
-    PubService pubService = new PubService("marketdata.topic") ;
+    // PubService pubService = new PubService("marketdata.topic") ;
+    RequestService pubService = new RequestService(MARKET_DATA_TOPIC) ;
 
     PriceData[] priceList = {
             new PriceData("AAPL",194.35,PriceData.CURRENCY.USD) ,
@@ -30,9 +34,11 @@ public class MarketDataPublisher {
             float percentIncrease = rn.nextInt(5);
             int sign = rn.nextInt(2) == 0 ? 1 : -1 ;
             pData.price += pData.price*(percentIncrease/100)*sign;
+            pData.date = new Date();
             Gson gson = new Gson();
             logger.info("pub market Data "+gson.toJson(pData));
-            pubService.pubMessage(gson.toJson(pData));
+            // pubService.pubMessage(gson.toJson(pData));
+            pubService.sendRequest(gson.toJson(pData));
             try {
                 Thread.sleep(1000);
             }
@@ -43,7 +49,6 @@ public class MarketDataPublisher {
     };
     
     public static void main(String[] args){
-
         MarketDataPublisher pub = new MarketDataPublisher();
         try {
             Thread thr = new Thread(pub.marketPriceGenerator);
