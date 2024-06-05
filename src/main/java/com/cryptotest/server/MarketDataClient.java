@@ -14,10 +14,14 @@ public class MarketDataClient implements MessageListener {
 
     Logger logger = Logger.getLogger(MarketDataClient.class) ;
 
-    Function<MarketData,PriceData> fp;
-    MarketDataClient(Function<MarketData,PriceData> fp){
-        this.fp = fp;
-    }
+    // Function<MarketData,PriceData> calcPrice = (mData)=>{
+
+    // }
+
+    // Function<MarketData,PriceData> fp;
+    // MarketDataClient(Function<MarketData,PriceData> fp){
+    //     this.fp = fp;
+    // }
     @Override
     public void onMessage(Message message) {
 
@@ -36,7 +40,7 @@ public class MarketDataClient implements MessageListener {
     } 
     public static void main(String[] args){
 
-        MarketDataClient client = new MarketDataClient(null);
+        MarketDataClient client = new MarketDataClient();
         SubService subService = new SubService("marketdata.topic") ;
 
         subService.startService(client);    
