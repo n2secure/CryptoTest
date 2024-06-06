@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -27,7 +28,7 @@ public class Main implements MessageListener{
 
     private final static Logger logger = Logger.getLogger(Main.class) ;
     public final static String COMMA_DELIMITER = ",";
-    private Map<String,PortfolioData> portfolioList = new HashMap<>();
+    private Map<String,PortfolioData> portfolioList = new ConcurrentHashMap<>();
     private List<String[]> csvList = new ArrayList<>();
 
     private static volatile SecurityClient securityClient;
@@ -94,6 +95,20 @@ public class Main implements MessageListener{
         }
    }
 
+   public void printPortfolio() {
+
+        System.out.println("Market Data Update");
+        System.out.println("symbol\t\tprice\t\tqty\t\tvalue");
+
+        for (Map.Entry<String,PortfolioData> ent : portfolioList.entrySet()){
+            PortfolioData pData = ent.getValue();
+            System.out.printf("%s\t\t%f\t%f\t%f\n",
+                pData.getSecurityId(),
+                pData.getPrice(),
+                pData.getQuantity(),
+                pData.getValue());
+        }
+    }
     @Override
     public void onMessage(Message message) {
 
@@ -106,7 +121,7 @@ public class Main implements MessageListener{
                 PriceData priceData = gson.fromJson(textMessage.getText(), PriceData.class);
                 logger.info("got market Data : usin gson "+gson.toJson(priceData));
                 this.recalcPrice(priceData);
-            }     
+                this.printPortfolio();            }     
         } catch (Exception e) {
             logger.error("exception caught : ",e);
         } finally {
