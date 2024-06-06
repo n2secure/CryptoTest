@@ -21,12 +21,13 @@ mvn install
 <h2>Usage</h2>
 This project uses ActiveMQ JMS for communication.
 Usage:
-
+<br>
 Run MarketData publisher:
 <br>
 in the root directory
+<br>
 startMarketDataPublisher.sh
-
+<br>
 Run Security Server:
 <br>
 in the root directory
