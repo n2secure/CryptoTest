@@ -32,8 +32,9 @@ public class Main implements MessageListener{
     private List<String[]> csvList = new ArrayList<>();
 
     private static volatile SecurityClient securityClient;
-    MarketDataClient marketDataClient = new MarketDataClient();
-    PriceCalculator priceCalculator = new PriceCalculator();
+    private MarketDataClient marketDataClient = new MarketDataClient();
+    private PriceCalculator priceCalculator = new PriceCalculator();
+    private SecurityServer mockSecurityServer = new SecurityServer();
 
     public static SecurityClient getSecurityClient(){
         if (securityClient == null){
@@ -58,6 +59,12 @@ public class Main implements MessageListener{
             logger.error("exception caught : ",e);
         }
    }
+
+   private Security mockSecurity(String securityId){
+    logger.info("mockSecurity() : securityId="+securityId);
+    return mockSecurityServer.getSecurity(securityId);
+   }
+
    public void enrichSecurityData() {
     logger.info("enrichSecurityData()");
     String securityId = null;
@@ -77,8 +84,7 @@ public class Main implements MessageListener{
 
             Security sec = getSecurityClient().getSecurity(request);
             if (sec == null){
-                sec = new Security();
-                sec.setSecurityId(securityId);
+                sec = mockSecurity(securityId);
             }
             pData.setSecurity(sec);
             portfolioList.put(sec.getSecurityId(),pData);

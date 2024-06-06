@@ -18,6 +18,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.jms.Destination;
 import javax.jms.Message;
@@ -79,7 +82,16 @@ public class SecurityServer implements MessageListener{
                     Security.OptionType.PUT);
                 }            
                 sec.setUnderlyingId(rs.getString("underlyngId"));
-                sec.setExpirationDate(rs.getString("expirationDate"));
+                String strDate = rs.getString("expirationDate");
+                if (strDate != null){
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        sec.setExpirationDate(df.parse(strDate));
+                    } catch (ParseException e) {
+                        logger.error("exception caught : ",e);
+                        sec.setExpirationDate(new Date());
+                    }
+                }
                 Gson gson = new Gson();
                 logger.info("security found : "+gson.toJson(sec));
                 rs.close();

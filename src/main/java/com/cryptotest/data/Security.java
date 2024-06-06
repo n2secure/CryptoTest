@@ -9,7 +9,7 @@ public class Security {
     String underlyingId;    
     SecurityType securityType;
     OptionType optionType;
-    String expirationDate; 
+    Date expirationDate; 
     double strikePrice;
     String name;
 
@@ -25,7 +25,7 @@ public class Security {
     public void setOptionType(OptionType optionType) {
         this.optionType = optionType;
     }
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
     public void setStrikePrice(double strikePrice) {
@@ -47,7 +47,7 @@ public class Security {
     public OptionType getOptionType() {
         return optionType;
     }
-    public String getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
     public double getStrikePrice() {

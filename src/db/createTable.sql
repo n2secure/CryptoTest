@@ -43,3 +43,11 @@ values
 insert into Security
 values
 ('TSLA-DEC-2024-400-P','Option','Put','TSLA','2024-12-20',400,'Tesla');
+
+insert into Security
+values
+('GOOG-NOV-2024-400-C','Option','Call','GOOG','2024-11-20',400,'Google');
+
+insert into Security
+values
+('GOOG-DEC-2024-400-P','Option','Put','GOOG','2024-12-20',400,'Google');
