@@ -22,16 +22,20 @@ mvn install
 This project uses ActiveMQ JMS for communication.
 Usage:
 
-Run MarketData publisher:
+<u>Run MarketData publisher:</u>
+<br>
 in the root directory
 startMarketDataPublisher.sh
 
-Run Security Server:
+<u>Run Security Server:</u>
+<br>
 in the root directory
 startSecurityServer.sh
 
-Run main program
+<u>Run main program</u>
+<br>
 startMain.sh
+<br>
 1. This will load the csv file [portfolio.csv]
 2. Lookup security information
 3. subscribe to market date
