@@ -8,7 +8,6 @@ import javax.jms.MessageListener;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 import java.util.function.Function;
-import com.cryptotest.data.MarketData;
 import com.cryptotest.data.PriceData;
 import com.cryptotest.data.Security;
 
@@ -18,13 +17,13 @@ import org.apache.log4j.Logger;
 public class MarketDataClient implements MessageListener {
 
     private final static Logger logger = Logger.getLogger(MarketDataClient.class) ;
-    ResponseService subcribeService =  new ResponseService(MarketDataPublisher.MARKET_DATA_TOPIC);       
+    ResponseService subscribeService =  new ResponseService(MarketDataPublisher.MARKET_DATA_TOPIC);       
  
     public void startService(){
-        subcribeService.startService(this);    
+        subscribeService.startService(this);    
     }
     public void startService(MessageListener listener){
-        subcribeService.startService(listener);    
+        subscribeService.startService(listener);    
     }
 
     @Override

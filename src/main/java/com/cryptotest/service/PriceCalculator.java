@@ -4,7 +4,6 @@ import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 
-import com.cryptotest.data.MarketData;
 import com.cryptotest.data.PortfolioData;
 import com.cryptotest.data.PriceData;
 import com.cryptotest.data.Security;
