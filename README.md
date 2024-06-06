@@ -22,18 +22,21 @@ mvn install
 This project uses ActiveMQ JMS for communication.
 Usage:
 <br>
+<br>
 Run MarketData publisher:
 <br>
 in the root directory
 <br>
 startMarketDataPublisher.sh
 <br>
+<br>
 Run Security Server:
 <br>
 in the root directory
 startSecurityServer.sh
-
-Run main program<
+<br>
+<br>
+Run main program
 <br>
 startMain.sh
 <br>
