@@ -19,9 +19,9 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 
-public class SubService  {
+public class SubscribeService  {
 
-    Logger logger = Logger.getLogger(SubService.class) ;
+    Logger logger = Logger.getLogger(SubscribeService.class) ;
     static MessageServiceHelper helper = new MessageServiceHelper();
 
     Connection connection;
@@ -29,7 +29,7 @@ public class SubService  {
     Destination dest;
     String topic;
 
-    public  SubService(String topic){
+    public  SubscribeService(String topic){
         this.topic = topic;
     }
     public void startService(MessageListener listener){

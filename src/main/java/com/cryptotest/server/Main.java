@@ -10,13 +10,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
 import org.apache.log4j.Logger;
 
 import com.cryptotest.data.PortfolioData;
+import com.cryptotest.data.PriceData;
 import com.cryptotest.data.SecurityRequest;
+import com.google.gson.Gson;
 import com.cryptotest.data.Security;
 
-public class Main {
+public class Main implements MessageListener{
 
     private final static Logger logger = Logger.getLogger(Main.class) ;
     public final static String COMMA_DELIMITER = ",";
@@ -24,6 +30,7 @@ public class Main {
     private List<String[]> csvList = new ArrayList<>();
 
     private static volatile SecurityClient securityClient;
+    MarketDataClient marketDataClient = new MarketDataClient();
 
     public static SecurityClient getSecurityClient(){
         if (securityClient == null){
@@ -34,6 +41,7 @@ public class Main {
 
 
     public void loadCSVfile(String strPath) {
+        logger.info("loadCSVfile() : path="+strPath);
         try (BufferedReader br = new BufferedReader(new FileReader(strPath))) {
             String line;
              while ((line = br.readLine()) != null) {
@@ -47,8 +55,9 @@ public class Main {
             logger.error("exception caught : ",e);
         }
    }
-   public void enrichPortfolioData() {
-        String securityId = null;
+   public void enrichSecurityData() {
+    logger.info("enrichSecurityData()");
+    String securityId = null;
         double qty = 0.0;
         for (String[] sVar : csvList){
             securityId = sVar[0];
@@ -64,15 +73,42 @@ public class Main {
             SecurityRequest request = new SecurityRequest(securityId);
 
             Security sec = getSecurityClient().getSecurity(request);
+            if (sec == null){
+                sec = new Security();
+                sec.setSecurityId(securityId);
+            }
             pData.setSecurity(sec);
             portfolioList.put(sec.getSecurityId(),pData);
         }
 
     }
+    @Override
+    public void onMessage(Message message) {
+
+      logger.info("MarketDataClient: onMessage() : +message");
+      try {
+            if (message instanceof TextMessage) {
+                TextMessage textMessage = (TextMessage) message;
+                logger.info("MarketData Received message"+ textMessage.getText() + "'");
+                Gson gson = new Gson();
+                PriceData pData = gson.fromJson(textMessage.getText(), PriceData.class);
+                logger.info("got market Data : usin gson "+gson.toJson(pData));
+            }     
+        } catch (Exception e) {
+            logger.error("exception caught : ",e);
+        } finally {
+        }
+    } 
+
+    public void startMarketDataSubscriber() {
+        logger.info("startMarketDataSubscriber()");
+        this.marketDataClient.startService(this);
+    }
 
     public static void main(String[] args) {
         Main mainClass = new Main();
         mainClass.loadCSVfile("portfolio.csv");
-        mainClass.enrichPortfolioData();
+        mainClass.enrichSecurityData();
+        mainClass.startMarketDataSubscriber();
    }
 }

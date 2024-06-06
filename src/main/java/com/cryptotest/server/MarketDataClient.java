@@ -1,7 +1,7 @@
 package com.cryptotest.server;
 
 import com.cryptotest.service.messaging.ResponseService;
-import com.cryptotest.service.messaging.SubService;
+import com.cryptotest.service.messaging.SubscribeService;
 import com.google.gson.Gson;
 
 import javax.jms.MessageListener;
@@ -11,12 +11,15 @@ import java.util.function.Function;
 import com.cryptotest.data.MarketData;
 import com.cryptotest.data.PriceData;
 import com.cryptotest.data.Security;
+
+import org.apache.camel.component.jms.MessageListenerContainerFactory;
 import org.apache.log4j.Logger;
 
 public class MarketDataClient implements MessageListener {
 
-    Logger logger = Logger.getLogger(MarketDataClient.class) ;
-
+    private final static Logger logger = Logger.getLogger(MarketDataClient.class) ;
+    ResponseService subcribeService =  new ResponseService(MarketDataPublisher.MARKET_DATA_TOPIC);       
+ 
     // Function<MarketData,PriceData> calcPrice = (mData)=>{
 
     // }
@@ -25,10 +28,18 @@ public class MarketDataClient implements MessageListener {
     // MarketDataClient(Function<MarketData,PriceData> fp){
     //     this.fp = fp;
     // }
+
+    public void startService(){
+        subcribeService.startService(this);    
+    }
+    public void startService(MessageListener listener){
+        subcribeService.startService(listener);    
+    }
+
     @Override
     public void onMessage(Message message) {
 
-      logger.info("SubService: onMessage() : +message");
+      logger.info("subcribeService: onMessage() : +message");
       try {
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
@@ -47,10 +58,9 @@ public class MarketDataClient implements MessageListener {
     public static void main(String[] args){
 
         MarketDataClient client = new MarketDataClient();
-        ResponseService subService =  new ResponseService(MarketDataPublisher.MARKET_DATA_TOPIC);       
-        // SubService subService = new SubService("marketdata.topic") ;
+        client.startService();
+        // SubService subService = new SubcribeService("marketdata.topic") ;
 
-        subService.startService(client);    
     }
 }
 

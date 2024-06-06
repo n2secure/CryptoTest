@@ -20,9 +20,9 @@ import javax.jms.TextMessage;
 import javax.jms.Topic;
 import java.util.UUID;
 
-public class PubService {
+public class PublishService {
 
-    Logger logger = Logger.getLogger(PubService.class) ;
+    Logger logger = Logger.getLogger(PublishService.class) ;
     static MessageServiceHelper helper = new MessageServiceHelper();
 
     Connection connection;
@@ -33,7 +33,7 @@ public class PubService {
     MessageProducer producer = null;
     private static final int TIMEOUT = 5000;
 
-    public PubService(String topic){
+    public PublishService(String topic){
         this.topic = topic;
     }
     public Message pubMessage(String strMessage){

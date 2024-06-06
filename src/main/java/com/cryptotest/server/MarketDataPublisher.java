@@ -1,6 +1,6 @@
 package com.cryptotest.server;
 
-import com.cryptotest.service.messaging.PubService;
+import com.cryptotest.service.messaging.PublishService;
 import com.cryptotest.service.messaging.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
