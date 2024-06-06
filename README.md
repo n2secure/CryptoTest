@@ -11,13 +11,13 @@ in the portfolio)
 6. Implement a portfolio result subscriber.
 
 This application was developed in linux.
-Installation
+<h2>Installation</h2>
 
 In the root directory:
 mvn install
 (Open JDK 17 required)
 
-
+<h2>Usage</h2>
 This project uses ActiveMQ JMS for communication.
 Usage:
 
@@ -38,7 +38,7 @@ startMain.sh
 5. print portfolio values whenever maket price changes
 
 
-Note:
+<h2>Note:</h2>
 There is an issue with running 2 or more Active MQ service locally .
 So to make the system sork.
 1. run startMarketDataPublisher.sh to publish some price updates
