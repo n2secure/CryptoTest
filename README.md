@@ -14,6 +14,7 @@ This application was developed in linux.
 <h2>Installation</h2>
 
 In the root directory:
+<br>
 mvn install
 (Open JDK 17 required)
 
