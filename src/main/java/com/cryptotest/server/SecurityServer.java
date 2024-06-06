@@ -69,17 +69,17 @@ public class SecurityServer implements MessageListener{
             rs = statement.executeQuery(strSql);
             while(rs.next())
             {
-                sec.securityId = rs.getString("securityId");
-                sec.name = rs.getString("name");
-                sec.strikePrice = rs.getDouble("strikePrice");
-                sec.securityType = rs.getString("securityType").equals("Option") ? Security.SecurityType.OPTION :
-                            Security.SecurityType.EQUITY ;
-                if (sec.securityType == Security.SecurityType.OPTION){
-                    sec.optionType = rs.getString("optionType").equals("Call") ?  Security.OptionType.CALL :
-                    Security.OptionType.PUT;
+                sec.setSecurityId(rs.getString("securityId"));
+                sec.setName(rs.getString("name"));
+                sec.setStrikePrice(rs.getDouble("strikePrice"));
+                sec.setSecurityType(rs.getString("securityType").equals("Option") ? Security.SecurityType.OPTION :
+                            Security.SecurityType.EQUITY) ;
+                if (sec.getSecurityType() == Security.SecurityType.OPTION){
+                    sec.setOptionType(rs.getString("optionType").equals("Call") ?  Security.OptionType.CALL :
+                    Security.OptionType.PUT);
                 }            
-                sec.underlyingId = rs.getString("underlyngId");
-                sec.expirationDate = rs.getString("expirationDate");
+                sec.setUnderlyingId(rs.getString("underlyngId"));
+                sec.setExpirationDate(rs.getString("expirationDate"));
                 Gson gson = new Gson();
                 logger.info("security found : "+gson.toJson(sec));
                 rs.close();
@@ -121,21 +121,24 @@ public class SecurityServer implements MessageListener{
                 Gson gson = new Gson();
                 SecurityRequest request = gson.fromJson(textMessage.getText(), SecurityRequest.class);
                 logger.info("got market Data : usin gson "+gson.toJson(request));
-                Security security = this.getSecurity(request.securityId);
+                Security security = this.getSecurity(request.getSecurityId());
 
+                String correlation = message.getJMSCorrelationID();
+                if (correlation == null) {
+                  correlation = message.getJMSMessageID();
+                }
 			    String contents = textMessage.getText();
 				Destination replyDestination = message.getJMSReplyTo();
 				MessageProducer replyProducer = responseService.getSession().createProducer(replyDestination);
-
-                
 				TextMessage replyMessage = responseService.getSession().createTextMessage();
-				replyMessage.setText(contents);
+                String secMessage = gson.toJson(security);
+				replyMessage.setText(secMessage);
 
-				replyMessage.setJMSCorrelationID(message.getJMSMessageID());
+				replyMessage.setJMSCorrelationID(correlation);
+                logger.info("replyDestination="+replyDestination+" ,JMSCorrelationID="+correlation+" ,replyMessage="+replyMessage);
+                logger.info("replyProducer.send()");
+
 				replyProducer.send(replyMessage);
-
-
-
             }     
         } catch (Exception e) {
             logger.error("exception caught : ",e);

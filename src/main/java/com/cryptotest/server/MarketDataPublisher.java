@@ -37,8 +37,9 @@ public class MarketDataPublisher {
             PriceData pData = priceList[iVal]; 
             float percentIncrease = rn.nextInt(5);
             int sign = rn.nextInt(2) == 0 ? 1 : -1 ;
-            pData.price += pData.price*(percentIncrease/100)*sign;
-            pData.date = new Date();
+            double newPrice = pData.getPrice() + pData.getPrice()*(percentIncrease/100)*sign;
+            pData.setPrice(newPrice);
+            pData.setDate(new Date());
             Gson gson = new Gson();
             logger.info("pub market Data "+gson.toJson(pData));
             // pubService.pubMessage(gson.toJson(pData));

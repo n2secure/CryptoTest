@@ -15,12 +15,10 @@ public class SecurityClient {
 
     static final Logger logger = Logger.getLogger(SecurityClient.class);
 
-    public static void main(String[] args){
+    RequestService reqService = new RequestService(SecurityServer.SECURITY_TOPIC) ;
 
-        RequestService reqService = new RequestService(SecurityServer.SECURITY_TOPIC) ;
-
-        SecurityRequest request = new SecurityRequest();
-        request.securityId = "AAPL-OCT-2024-110-P";
+    public Security getSecurity(SecurityRequest request){
+        Security security = null;
         Gson gson = new Gson();
         logger.info("send security request : "+gson.toJson(request));
         Message message = reqService.sendRequestResponse(gson.toJson(request));    
@@ -34,9 +32,20 @@ public class SecurityClient {
             }
 
             logger.info("Received message"+ strMessage + "'");
-            Security sec = gson.fromJson(strMessage, Security.class);
-            logger.info("got security : using gson "+gson.toJson(sec));
+            security = gson.fromJson(strMessage, Security.class);
+            logger.info("got security : using gson "+gson.toJson(security));
         }
+        return security;
+    }
+    public static void main(String[] args){
+
+        SecurityClient client = new SecurityClient();
+
+        SecurityRequest request = new SecurityRequest("AAPL-OCT-2024-110-P");
+
+        Security sec = client.getSecurity(request);
+        Gson gson = new Gson();
+        logger.info("got security : using gson "+gson.toJson(sec));
    
     }
 

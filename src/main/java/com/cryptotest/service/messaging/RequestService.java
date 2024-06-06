@@ -55,6 +55,7 @@ public class RequestService {
 
             textMessage.setJMSCorrelationID( correlationId );
             textMessage.setJMSReplyTo( replyQueue );
+            logger.info("RequestService: correlationId="+correlationId+" ,replyQueue="+replyQueue);
 
             logger.info("RequestService: createProducer( dest )");
             producer = session.createProducer( dest );
