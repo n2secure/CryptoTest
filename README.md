@@ -50,10 +50,14 @@ Portfolio data:
 <br> in root directory : portfolio.csv
 
 <h2>Note:</h2>
-There is an issue with running 2 or more Active MQ service locally .
-So to make the system sork.
+There is an issue with running 2 or more Active MQ services locally simultaneously .
+<br>
+So to make the system work.
+<br>
 1. run startMarketDataPublisher.sh to publish some price updates
+<br>
 2. shut it down.
+<br>
 3. run startMain.sh to load csv and calculate portfolio,
 
 
