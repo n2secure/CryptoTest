@@ -20,15 +20,6 @@ public class MarketDataClient implements MessageListener {
     private final static Logger logger = Logger.getLogger(MarketDataClient.class) ;
     ResponseService subcribeService =  new ResponseService(MarketDataPublisher.MARKET_DATA_TOPIC);       
  
-    // Function<MarketData,PriceData> calcPrice = (mData)=>{
-
-    // }
-
-    // Function<MarketData,PriceData> fp;
-    // MarketDataClient(Function<MarketData,PriceData> fp){
-    //     this.fp = fp;
-    // }
-
     public void startService(){
         subcribeService.startService(this);    
     }
