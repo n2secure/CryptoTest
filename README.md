@@ -22,17 +22,17 @@ mvn install
 This project uses ActiveMQ JMS for communication.
 Usage:
 
-<u>Run MarketData publisher:</u>
+Run MarketData publisher:
 <br>
 in the root directory
 startMarketDataPublisher.sh
 
-<u>Run Security Server:</u>
+Run Security Server:
 <br>
 in the root directory
 startSecurityServer.sh
 
-<u>Run main program</u>
+Run main program<
 <br>
 startMain.sh
 <br>
@@ -42,6 +42,12 @@ startMain.sh
 4. perform calculastions
 5. print portfolio values whenever maket price changes
 
+Database:
+<br> in root directory : security.db
+<br> Database schema /db/createTable.sql
+
+Portfolio data:
+<br> in root directory : portfolio.csv
 
 <h2>Note:</h2>
 There is an issue with running 2 or more Active MQ service locally .
