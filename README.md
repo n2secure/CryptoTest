@@ -1,4 +1,4 @@
-<h1>Crypto.com Coding Test</h1>
+<h1>Coding Test</h1>
 
 This is a coding test to:
 
