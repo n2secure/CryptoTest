@@ -21,7 +21,7 @@ import javax.jms.TextMessage;
 
 public class ResponseService implements MessageListener {
 
-    Logger logger = Logger.getLogger(ResponseService.class) ;
+    private static final Logger logger = Logger.getLogger(ResponseService.class) ;
     static MessageServiceHelper helper = new MessageServiceHelper();
 
     Connection connection;

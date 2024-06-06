@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import com.cryptotest.data.PortfolioData;
 import com.cryptotest.data.PriceData;
 import com.cryptotest.data.SecurityRequest;
+import com.cryptotest.service.PriceCalculator;
 import com.google.gson.Gson;
 import com.cryptotest.data.Security;
 
@@ -31,6 +32,7 @@ public class Main implements MessageListener{
 
     private static volatile SecurityClient securityClient;
     MarketDataClient marketDataClient = new MarketDataClient();
+    PriceCalculator priceCalculator = new PriceCalculator();
 
     public static SecurityClient getSecurityClient(){
         if (securityClient == null){
@@ -82,6 +84,16 @@ public class Main implements MessageListener{
         }
 
     }
+
+    public void recalcPrice(PriceData priceData) {
+        Gson gson = new Gson();
+        logger.info("recalcPrice() : pData="+gson.toJson(priceData));
+
+        for (Map.Entry<String,PortfolioData> ent : portfolioList.entrySet()){
+            priceCalculator.recalcPrice(ent.getValue(), priceData);
+        }
+   }
+
     @Override
     public void onMessage(Message message) {
 
@@ -91,8 +103,9 @@ public class Main implements MessageListener{
                 TextMessage textMessage = (TextMessage) message;
                 logger.info("MarketData Received message"+ textMessage.getText() + "'");
                 Gson gson = new Gson();
-                PriceData pData = gson.fromJson(textMessage.getText(), PriceData.class);
-                logger.info("got market Data : usin gson "+gson.toJson(pData));
+                PriceData priceData = gson.fromJson(textMessage.getText(), PriceData.class);
+                logger.info("got market Data : usin gson "+gson.toJson(priceData));
+                this.recalcPrice(priceData);
             }     
         } catch (Exception e) {
             logger.error("exception caught : ",e);
