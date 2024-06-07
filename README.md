@@ -42,9 +42,13 @@ startMain.sh
 <br>
 <br>
 1. This will load the csv file [portfolio.csv]
+<br>
 2. Lookup security information
+<br>
 3. subscribe to market date
+<br>
 4. perform calculastions
+<br>
 5. print portfolio values whenever maket price changes
 <br>
 Database:
